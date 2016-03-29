@@ -1,0 +1,2 @@
+# ezDuplicateFileFinder
+Duplicate file finder
