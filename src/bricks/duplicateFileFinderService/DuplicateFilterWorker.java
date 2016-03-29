@@ -30,6 +30,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+/**
+ * Group and returns all duplicate files referenced by a unique criteria (hash)
+ * retrieved from the Work Request and respond in Work Request
+ * @author      Adrian Tilita <adrian@tilita.ro>
+ * @version     1.0
+ * @since       2016-03
+ */
 public class DuplicateFilterWorker extends Observable implements WorkerInterface, LoggerAware {
     /**
      * The request that defines what to scan

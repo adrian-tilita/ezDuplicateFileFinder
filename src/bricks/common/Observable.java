@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 Adrian Tilita
+ * Copyright (c) 2016 Adrian Tilita <adrian@tilita.ro>
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -75,6 +75,7 @@ abstract public class Observable {
         if (this.observers.isEmpty() == true) {
             return;
         }
+        // loop the old fashion way to avoid ConcurrentModificationException
         int observerCount = this.observers.size();
         for (int i = 0; i < observerCount; i++) {
             this.observers.remove(i);

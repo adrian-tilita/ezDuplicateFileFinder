@@ -33,6 +33,16 @@ import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Generate a unique identifier for a set off files marked in the Work Request
+ * and builds a list with an associated unique Id -> file and pass the response
+ * in the Work Request. In the current development the unique id is the file's
+ * checksum
+ * 
+ * @author      Adrian Tilita <adrian@tilita.ro>
+ * @version     1.0
+ * @since       2016-03
+ */
 public class FileChecksumWorker extends Observable implements WorkerInterface, LoggerAware {
     /**
      * The request that defines what to scan

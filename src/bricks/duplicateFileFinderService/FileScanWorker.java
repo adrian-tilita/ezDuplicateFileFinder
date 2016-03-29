@@ -29,6 +29,14 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.io.File;
 
+/**
+ * Retrieves a list off files according to the Work Request and set the response
+ * in the Work Request
+ * 
+ * @author      Adrian Tilita <adrian@tilita.ro>
+ * @version     1.0
+ * @since       2016-03
+ */
 public class FileScanWorker extends Observable implements WorkerInterface, LoggerAware  {
     /**
      * Directory container
