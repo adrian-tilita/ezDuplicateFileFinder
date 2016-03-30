@@ -25,7 +25,7 @@ package bricks.common;
  * A Prototype notification message passed on to the observers
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03-28
  */
 public class NotificationMessage {

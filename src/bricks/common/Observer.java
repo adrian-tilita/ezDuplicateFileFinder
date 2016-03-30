@@ -24,7 +24,7 @@ package bricks.common;
 /**
  * NotificationMessage Listener interface
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03-28
  */
 public interface Observer {

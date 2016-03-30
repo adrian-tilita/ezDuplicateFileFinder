@@ -25,7 +25,7 @@ package bricks.duplicateFileFinderService;
  * Worker definition - Should contain all actions that a worker contains
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03-28
  * @todo        Extend to a state service with common mementos: start | pause | resume | stop
  */

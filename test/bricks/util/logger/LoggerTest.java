@@ -103,6 +103,12 @@ public class LoggerTest {
     }
 
     @Test
+    public void testLogDump() {
+        this.logger.logDump(this.testMessage);
+        assertTrue(this.message.contains("[" + LoggerInterface.DEBUG_DUMP.toUpperCase() + "]"));
+    }
+
+    @Test
     public void testLogMessage() {
         String customLogLevel = "custom_level";
         this.logger.log(customLogLevel, this.testMessage);

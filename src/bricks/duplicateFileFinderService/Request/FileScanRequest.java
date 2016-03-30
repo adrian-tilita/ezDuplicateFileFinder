@@ -28,7 +28,7 @@ import java.io.FileFilter;
  * Work Request for FileScanWorker
  *
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03
  * @see         bricks.duplicateFileFinderService.FileScanWorker;
  */

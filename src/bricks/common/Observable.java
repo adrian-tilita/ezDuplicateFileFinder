@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Observable abstract definition
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03-28
  */
 abstract public class Observable {

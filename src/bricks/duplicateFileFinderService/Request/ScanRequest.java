@@ -31,7 +31,7 @@ import java.util.HashMap;
  * initialized by MasterService
  *
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03
  * @see         bricks.duplicateFileFinderService.MasterService;
  */

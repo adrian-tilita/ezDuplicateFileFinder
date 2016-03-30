@@ -25,10 +25,7 @@ public class FileStreamHandlerTest {
 
     @After
     public void tearDown() {
-        this.path = null;
-        this.filename = null;
         Path newfile = Paths.get(this.path + this.filename);
-
         if (Files.exists(newfile) == true) {
             try {
                 Files.delete(newfile);
@@ -36,11 +33,10 @@ public class FileStreamHandlerTest {
                 e.printStackTrace();
             }
         }
+        this.path = null;
+        this.filename = null;
     }
 
-    /**
-     * Test of stream method, of class FileStreamHandler.
-     */
     @Test
     public void testStreamNullSetters() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -53,9 +49,6 @@ public class FileStreamHandlerTest {
         assertTrue(outContent.toString().contains("Could not write to log"));
     }
 
-    /**
-     * Test of stream method, of class FileStreamHandler.
-     */
     @Test
     public void testStreamWriteFileCreationTrue() {
         String message = "TEST";
@@ -69,9 +62,6 @@ public class FileStreamHandlerTest {
         assertTrue(Files.exists(newfile));
     }
 
-    /**
-     * Test of stream method, of class FileStreamHandler.
-     */
     @Test
     public void testStreamWriteFileCreationFalse() {
         String message = "TEST";
@@ -80,22 +70,10 @@ public class FileStreamHandlerTest {
         instance.setLogPath(this.path);
 
         Path newfile = Paths.get(this.path + this.filename);
-        // I don't know why tearDown does not remove the file
-        if (Files.exists(newfile) == true) {
-            try {
-                Files.delete(newfile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         // verify that the file was created
         assertFalse(Files.exists(newfile));
     }
 
-
-    /**
-     * Test of stream method, of class FileStreamHandler.
-     */
     @Test
     public void testStreamFileCreate() {
         String message = "TEST";
@@ -105,18 +83,12 @@ public class FileStreamHandlerTest {
         instance.setLogPath(this.path);
         // on stream should create the new file
         instance.stream(message);
+        // second message to cover the "file exists" instruction
+        instance.stream(message);
         Path newfile = Paths.get(this.path + createFileName);
         assertTrue(Files.exists(newfile));
-        try {
-            Files.delete(newfile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    /**
-     * Test of stream method, of class FileStreamHandler.
-     */
     @Test
     public void testStreamWrite() {
         String message = "TEST";

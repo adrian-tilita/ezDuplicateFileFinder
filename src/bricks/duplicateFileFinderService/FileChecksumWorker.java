@@ -40,7 +40,7 @@ import java.security.NoSuchAlgorithmException;
  * checksum
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
- * @version     1.0
+ * @version     1.0.0
  * @since       2016-03
  */
 public class FileChecksumWorker extends Observable implements WorkerInterface, LoggerAware {
