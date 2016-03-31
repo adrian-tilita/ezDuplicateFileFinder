@@ -1,5 +1,6 @@
 package ezduplicatefilefinder;
 
+import layout.Main;
 import bricks.util.logger.FileStreamHandler;
 import bricks.util.logger.Logger;
 import java.io.File;
@@ -11,6 +12,11 @@ public class EzDuplicateFileFinder {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Main layout = new Main();
+        layout.main(null);
+    }
+        
+    private void test() {
         System.out.println("Started project");
         
         ArrayList<String> list = new ArrayList<>();

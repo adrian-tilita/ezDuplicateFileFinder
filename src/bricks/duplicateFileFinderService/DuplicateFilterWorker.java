@@ -33,6 +33,7 @@ import java.util.ArrayList;
 /**
  * Group and returns all duplicate files referenced by a unique criteria (hash)
  * retrieved from the Work Request and respond in Work Request
+ * 
  * @author      Adrian Tilita <adrian@tilita.ro>
  * @version     1.0.0
  * @since       2016-03
