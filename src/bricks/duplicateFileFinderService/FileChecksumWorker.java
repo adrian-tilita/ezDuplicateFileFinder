@@ -96,6 +96,7 @@ public class FileChecksumWorker extends Observable implements WorkerInterface, L
                 this.getLogger().logWarning("Could not hash " + filename + " {Exception: " + e.getMessage() + "}");
             }
             if (hash != null) {
+                this.dispatchMessage(NotificationMessageType.INFO, "Verifing file " + filename, this);
                 this.request.addChecksumResult(filename, hash);
             }
         }

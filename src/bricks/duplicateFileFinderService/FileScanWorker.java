@@ -108,6 +108,7 @@ public class FileScanWorker extends Observable implements WorkerInterface, Logge
      */
     private void listFiles(String path) {
         File dir_path = new File(path);
+        this.dispatchMessage("Scanning " + NotificationMessageType.INFO, path, this);
         File[] list = null;
         try {
             if (this.request.getFileFilter() == null) {
@@ -130,8 +131,6 @@ public class FileScanWorker extends Observable implements WorkerInterface, Logge
                 this.directories.add(file.getAbsolutePath());
                 continue;
             }
-            // send file information to listeners
-            this.dispatchMessage(NotificationMessageType.INFO, file.getAbsolutePath(), this);
             this.request.addFile(file.getAbsolutePath());
         }
     }

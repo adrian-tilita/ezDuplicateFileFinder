@@ -21,21 +21,36 @@
  */
 package layout.helper.component;
 
+import java.awt.Component;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
+
 /**
- * Define a set off NotificationMessage types so can have a common "ground" for the service interactions
+ * Create a "button" simulation for the JTable
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
  * @version     1.0.0
- * @since       2016-03
+ * @since       2016-04
  */
-public interface JTreeNotificationMessage {
+public class ButtonRenderer extends JButton implements TableCellRenderer {
     /**
-     * NotificationMessage type START
+     * Forcing a UID for the nagging warnings (the serial represents 
+     * the birth date off my beautiful daughter)
      */
-    public static final String START = "STARTED";
+    private static final long serialVersionUID = 19092015;
+
+    public ButtonRenderer() {
+        setOpaque(true);
+    }
 
     /**
-     * NotificationMessage type COMPLETE
+     * {@inheritDoc}
+     * @return
      */
-    public static final String COMPLETE = "COMPLETED";
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        setText(value.toString());
+        return this;
+    }
 }

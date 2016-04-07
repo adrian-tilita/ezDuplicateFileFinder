@@ -22,21 +22,23 @@
 package layout.helper;
 
 import bricks.common.Observer;
+import bricks.common.Observable;
 import bricks.common.NotificationMessage;
-import layout.helper.component.JTreeNotificationMessage;
+import bricks.duplicateFileFinderService.NotificationMessageType;
 
 /**
- * Loading Trigger on Directory Tree progress
+ * Loading Trigger on scan worker
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
  * @version     1.0.0
  * @since       2016-03
  */
-public class LoadingTreeObserver implements Observer {
+public class ScanProgressObserver extends Observable implements Observer {
     /**
-     * Progress bar
+     * Progress bar and label
      */
     private javax.swing.JProgressBar progressbar = null;
+    private javax.swing.JLabel label = null;
 
     /**
      * The item to be modified upon event notification
@@ -44,22 +46,32 @@ public class LoadingTreeObserver implements Observer {
      */
     public void setLoader(javax.swing.JProgressBar progressbar) {
         this.progressbar = progressbar;
-        this.progressbar.setVisible(false);
     }
 
     /**
-     * {@inheritDoc}
+     * Set the label where we write all the service activity
+     * @param label 
+     */
+    public void setScanInfo(javax.swing.JLabel label) {
+        this.label = label;
+    }
+
+    /**
+     * {@inheritDoc} 
      */
     @Override
-    public void catchNotification(NotificationMessage message) {
-        switch (message.getType()) {
-            case(JTreeNotificationMessage.START): 
-                this.progressbar.setVisible(true);
+    public void catchNotification(NotificationMessage notificationMessage) {
+        switch (notificationMessage.getType()) {
+            case(NotificationMessageType.START): 
                 this.progressbar.setIndeterminate(true);
                 break;
-            case(JTreeNotificationMessage.COMPLETE): 
+            case(NotificationMessageType.COMPLETE): 
                 this.progressbar.setIndeterminate(false);
-                this.progressbar.setVisible(false);
+                this.label.setText("Finished");
+                this.dispatchMessage("FINISHED", "", this);
+                break;
+            case(NotificationMessageType.INFO): 
+                this.label.setText(notificationMessage.getMessage());
                 break;
         }
     }

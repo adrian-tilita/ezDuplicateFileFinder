@@ -26,6 +26,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+/**
+ * Implementation off a DirectoryList DataRetrieval for the jTree Component
+ * 
+ * @author      Adrian Tilita <adrian@tilita.ro>
+ * @version     1.0.0
+ * @since       2016-03
+ */
 public class DirectoryDataRetrieval implements DataRetrieval {
     /**
      * Default root node text

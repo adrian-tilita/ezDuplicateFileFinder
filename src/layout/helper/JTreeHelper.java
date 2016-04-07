@@ -26,9 +26,9 @@ import layout.helper.component.DataRetrieval;
 import layout.helper.component.DirectoryDataRetrieval;
 import layout.helper.component.TreeColapseSwingWorker;
 import layout.helper.component.JTreeNotificationMessage;
-
+import bricks.util.logger.LoggerAware;
+import bricks.util.logger.LoggerInterface;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -45,7 +45,7 @@ import javax.swing.SwingUtilities;
  * @version     1.0.0
  * @since       2016-03
  */
-public class JTreeHelper extends Observable implements TreeWillExpandListener {
+public class JTreeHelper extends Observable implements TreeWillExpandListener, LoggerAware {
     /**
      * Configurate if the JTree should have the root node visible
      */
@@ -80,6 +80,30 @@ public class JTreeHelper extends Observable implements TreeWillExpandListener {
      * Stores the nodes already loaded
      */
     private ArrayList<String> cachedNodes = new ArrayList<>();
+
+    /**
+     * Logger container
+     */
+    protected LoggerInterface logger = null;
+    
+    /**
+     * {@inheritDoc} 
+     */
+    @Override
+    public void setLogger(LoggerInterface logger) {
+        this.logger = logger;
+    }
+
+    /**
+     * {@inheritDoc} 
+     */
+    @Override
+    public LoggerInterface getLogger() throws NullPointerException {
+        if (this.logger == null) {
+            throw new NullPointerException("No logger service was set!");
+        }
+        return this.logger;
+    }
 
     /**
      * Service constructor - class cannot be instantiated without
@@ -166,7 +190,7 @@ public class JTreeHelper extends Observable implements TreeWillExpandListener {
                 }
                 this.JTree.setRootVisible(this.VISIBLE_ROOT_NODE);
             } catch (Exception e) {
-                e.printStackTrace();
+                this.getLogger().logAlert("Error building tree Node - " + e.getMessage());
             }
         });
         initialTreeData.start();            

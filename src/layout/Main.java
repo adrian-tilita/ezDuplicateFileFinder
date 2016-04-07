@@ -1,29 +1,79 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Copyright (c) 2016 Adrian Tilita <adrian@tilita.ro>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package layout;
 
+import layout.helper.MainHelper;
+
 /**
- *
- * @author adrian.tilita
+ * Main Application Layout
+ * 
+ * @author      Adrian Tilita <adrian@tilita.ro>
+ * @version     1.0.0
+ * @since       2016-03
  */
 public class Main extends javax.swing.JFrame {
-
-    private layout.helper.JTreeHelper JTreeHelper = null;
-
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        this.JTreeHelper = new layout.helper.JTreeHelper(this.jTree1, this);
-        layout.helper.LoadingTreeObserver observer = new layout.helper.LoadingTreeObserver();
-        observer.setLoader(this.jProgressBar1);
-        JTreeHelper.addObserver(observer);
-        this.JTreeHelper.apply();
-        initComponents();
+
+        // init layout helper and add dependency reference
+        MainHelper layoutHelper = new MainHelper();
+        layoutHelper.addLayoutFrame(this);
+
+        // add jtree components
+        layoutHelper.addComponent(MainHelper.JTREE_COMPONENT, this.jTree1)
+                .addComponent(MainHelper.JTREE_PROGRESS_COMPONENT, this.jProgressBar1);
+
+        // add dir add/remove/view group
+        layoutHelper.addComponent(MainHelper.DIR_ADD_BUTTON, this.jButton1)
+                .addComponent(MainHelper.DIR_REMOVE_BUTTON, this.jButton3)
+                .addComponent(MainHelper.DIR_LIST, this.jList1);
+
+        // add extension list
+        layoutHelper.addComponent(MainHelper.EXT_LIST, this.jList2);
+
+        // add scan progress and trigger components
+        layoutHelper.addComponent(MainHelper.SCAN_BUTTON, this.jButton4)
+                .addComponent(MainHelper.SCAN_PROGRESS_BAR, this.jProgressBar2)
+                .addComponent(MainHelper.SCAN_PROGRESS_INFO, this.jLabel3);
+
+        // add the grid container
+        layoutHelper.addComponent(MainHelper.RESULT_GRID, this.jTable1);
+        /*
+        // add the Lists
+        layoutHelper.addList(layout.helper.MainHelper.JLIST_DIR, this.jList1);
+        layoutHelper.addList(layout.helper.MainHelper.JLIST_EXT, this.jList2);
+
+        layoutHelper.addButton(layout.helper.MainHelper.JLIST_DIR, jButton1);
+        layoutHelper.addButton(layout.helper.MainHelper.JLIST_REMOVE_DIR, jButton3);
+
+        layoutHelper.addButton(layout.helper.MainHelper.SCAN, jButton4);
+
+        layoutHelper.addScanProgressBar(this.jProgressBar2);
+        layoutHelper.addScanProgressLabel(this.jLabel3);
+        */
+        layoutHelper.init();
     }
 
     /**
@@ -52,6 +102,8 @@ public class Main extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jProgressBar2 = new javax.swing.JProgressBar();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         jButton2.setText(">> Add to list");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +137,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                .add(jScrollPane1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jProgressBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(6, 6, 6))
@@ -117,6 +169,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("Filter by extensions:");
 
         jList2.setModel(new javax.swing.AbstractListModel() {
@@ -153,10 +206,10 @@ public class Main extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel1)
-                    .add(jLabel2))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel2))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -171,7 +224,21 @@ public class Main extends javax.swing.JFrame {
 
         jButton4.setText("Scan");
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("Action info");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable1);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,22 +249,17 @@ public class Main extends javax.swing.JFrame {
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .add(layout.createSequentialGroup()
-                                .add(177, 177, 177)
-                                .add(jButton4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 274, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(0, 157, Short.MAX_VALUE))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jProgressBar2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .add(177, 177, 177)
+                        .add(jButton4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 274, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel3)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jProgressBar2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -212,8 +274,10 @@ public class Main extends javax.swing.JFrame {
                         .add(jProgressBar2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jLabel3)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 275, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(0, 0, Short.MAX_VALUE))
-                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE))
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -235,7 +299,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -291,6 +355,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

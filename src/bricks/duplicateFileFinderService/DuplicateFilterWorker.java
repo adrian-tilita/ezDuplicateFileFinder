@@ -83,6 +83,7 @@ public class DuplicateFilterWorker extends Observable implements WorkerInterface
     public void start() {
         Map<String, ArrayList<String>> groupedFiles = this.groupHashedFiles(this.request.getHashedFiles());
         Map<String, ArrayList<String>> foundDuplicates = this.filterDuplicates(groupedFiles);
+        this.request.addDuplicateList(foundDuplicates);
         this.dispatchMessage(NotificationMessageType.COMPLETE, null, this);
     }
 
@@ -96,6 +97,7 @@ public class DuplicateFilterWorker extends Observable implements WorkerInterface
         Map<String, ArrayList<String>> duplicates = new HashMap<>();
         list.forEach(
             (String file, String hash) -> {
+                this.dispatchMessage(NotificationMessageType.INFO, "Searching duplicates for " + file, this);
                 if (duplicates.containsKey(hash)) {
                     duplicates.get(hash).add(file);
                 } else {
@@ -123,6 +125,7 @@ public class DuplicateFilterWorker extends Observable implements WorkerInterface
                 iterator.remove();
                 continue;
             }
+            this.dispatchMessage(NotificationMessageType.INFO, "Grouping duplicates - found a group off " + currentLine.getValue().size() + " duplicate files", this);
             this.getLogger().logDebug("Found a group of " + currentLine.getValue().size() + " files with the hash " + currentLine.getKey());
         }
         return list;

@@ -90,11 +90,10 @@ public class MasterService extends Observable implements WorkerInterface, Observ
         String messageType = notificationMessage.getType();
         switch (messageType) {
             case (NotificationMessageType.COMPLETE):
-                this.getLogger().logDebug("Worker " + notificationMessage.getTarget().getClass().getCanonicalName() + " notified completion!");
                 this.work();
-             break;
+            break;
             case (NotificationMessageType.INFO):
-                this.getLogger().logDump("Worker " + notificationMessage.getTarget().getClass().getCanonicalName() + " sent an info with the message: " + notificationMessage.getMessage());
+                this.dispatchMessage(NotificationMessageType.INFO, notificationMessage.getMessage(), this);
             break;
         }
     }
@@ -104,10 +103,12 @@ public class MasterService extends Observable implements WorkerInterface, Observ
      */
     @Override
     public void start() {
+        this.dispatchMessage(NotificationMessageType.START, "", this);
         // build all workers and attach to list
         this.initWorkers();
         this.getLogger().logDebug("Started Master Worker with " + this.workerList.size() + " workers!");
         this.work();
+        this.dispatchMessage(NotificationMessageType.COMPLETE, "", this);
     }
 
     /**

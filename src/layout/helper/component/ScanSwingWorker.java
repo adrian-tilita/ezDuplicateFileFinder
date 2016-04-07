@@ -21,21 +21,37 @@
  */
 package layout.helper.component;
 
+import bricks.duplicateFileFinderService.WorkerInterface;
+import javax.swing.SwingWorker;
+
 /**
- * Define a set off NotificationMessage types so can have a common "ground" for the service interactions
+ * Swing worker for scan process
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
  * @version     1.0.0
  * @since       2016-03
  */
-public interface JTreeNotificationMessage {
+public class ScanSwingWorker extends SwingWorker<Integer,Integer> {
     /**
-     * NotificationMessage type START
+     * The main service to do in background
      */
-    public static final String START = "STARTED";
+    private WorkerInterface masterService = null;
 
     /**
-     * NotificationMessage type COMPLETE
+     * Constructor
+     * @param worker
      */
-    public static final String COMPLETE = "COMPLETED";
+    public ScanSwingWorker(WorkerInterface worker) {
+        this.masterService = worker;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return 
+     */
+    @Override
+    public Integer doInBackground() {
+        this.masterService.start();
+        return 1;
+    }
 }

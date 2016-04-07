@@ -1,6 +1,8 @@
 package ezduplicatefilefinder;
 
 import layout.Main;
+import bricks.duplicateFileFinderService.Manager.ObjectPoolManager;
+
 import bricks.util.logger.FileStreamHandler;
 import bricks.util.logger.Logger;
 import java.io.File;
@@ -12,8 +14,13 @@ public class EzDuplicateFileFinder {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Main layout = new Main();
-        layout.main(null);
+        ObjectPoolManager manager = ObjectPoolManager.getInstance();
+        try {
+            Main layout = new Main();
+            layout.main();
+        } catch (Exception e) {
+            manager.getLogger().logCritical("Untreated exception caught in main executor. Exception <" + e.getClass().getCanonicalName() + "> with message: " + e.getMessage());
+        }
     }
         
     private void test() {

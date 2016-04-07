@@ -31,7 +31,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * 
  * @author      Adrian Tilita <adrian@tilita.ro>
  * @version     1.0.0
- * @since       2016-03-28
+ * @since       2016-03
  * @todo        Better organize setters and dependencies
  */
 public class TreeColapseSwingWorker extends SwingWorker<Integer,Integer> {
@@ -77,6 +77,7 @@ public class TreeColapseSwingWorker extends SwingWorker<Integer,Integer> {
 
     /**
      * {@inheritDoc}
+     * @return 
      */
     @Override
     public Integer doInBackground() {
