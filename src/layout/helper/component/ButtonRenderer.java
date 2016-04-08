@@ -25,6 +25,7 @@ import java.awt.Component;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.JOptionPane;
 
 /**
  * Create a "button" simulation for the JTable

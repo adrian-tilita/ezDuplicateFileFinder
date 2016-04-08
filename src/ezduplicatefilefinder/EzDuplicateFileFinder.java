@@ -14,11 +14,11 @@ public class EzDuplicateFileFinder {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ObjectPoolManager manager = ObjectPoolManager.getInstance();
         try {
             Main layout = new Main();
             layout.main();
         } catch (Exception e) {
+            ObjectPoolManager manager = ObjectPoolManager.getInstance();
             manager.getLogger().logCritical("Untreated exception caught in main executor. Exception <" + e.getClass().getCanonicalName() + "> with message: " + e.getMessage());
         }
     }

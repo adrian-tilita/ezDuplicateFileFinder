@@ -67,10 +67,16 @@ public class RowRenderer extends DefaultTableCellRenderer implements TableCellRe
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        if (this.identifiers.containsKey(row)) {
-            cellComponent.setBackground(Color.YELLOW);
+        if (isSelected == true) {
+            cellComponent.setBackground(Color.RED);
+            cellComponent.setForeground(Color.WHITE);
         } else {
-            cellComponent.setBackground(Color.WHITE);
+            if (this.identifiers.containsKey(row)) {
+                cellComponent.setBackground(Color.YELLOW);
+            } else {
+                cellComponent.setBackground(Color.WHITE);
+            }
+            cellComponent.setForeground(Color.BLACK);
         }
         return cellComponent;
     }

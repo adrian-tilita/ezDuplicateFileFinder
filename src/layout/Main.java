@@ -60,19 +60,7 @@ public class Main extends javax.swing.JFrame {
 
         // add the grid container
         layoutHelper.addComponent(MainHelper.RESULT_GRID, this.jTable1);
-        /*
-        // add the Lists
-        layoutHelper.addList(layout.helper.MainHelper.JLIST_DIR, this.jList1);
-        layoutHelper.addList(layout.helper.MainHelper.JLIST_EXT, this.jList2);
 
-        layoutHelper.addButton(layout.helper.MainHelper.JLIST_DIR, jButton1);
-        layoutHelper.addButton(layout.helper.MainHelper.JLIST_REMOVE_DIR, jButton3);
-
-        layoutHelper.addButton(layout.helper.MainHelper.SCAN, jButton4);
-
-        layoutHelper.addScanProgressBar(this.jProgressBar2);
-        layoutHelper.addScanProgressLabel(this.jLabel3);
-        */
         layoutHelper.init();
     }
 

@@ -21,7 +21,6 @@
  */
 package layout.helper;
 
-import bricks.common.NotificationMessage;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -30,18 +29,6 @@ import javax.swing.JProgressBar;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.table.TableColumn;
-import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
-import java.util.List;
-import bricks.common.Observer;
-import bricks.duplicateFileFinderService.Request.FileFilterComponent;
-import bricks.duplicateFileFinderService.Request.ScanRequest;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -49,10 +36,28 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import layout.helper.component.ResultParser;
+import javax.swing.table.DefaultTableCellRenderer;
+
+import java.awt.Font;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.List;
+
+import bricks.common.Observer;
+import bricks.common.NotificationMessage;
 import bricks.duplicateFileFinderService.Manager.ObjectPoolManager;
 import bricks.duplicateFileFinderService.MasterService;
-import javax.swing.table.DefaultTableCellRenderer;
+import bricks.duplicateFileFinderService.Request.FileFilterComponent;
+import bricks.duplicateFileFinderService.Request.ScanRequest;
+import java.awt.Color;
+
+import layout.helper.component.ResultParser;
 import layout.helper.component.ButtonRenderer;
 import layout.helper.component.RowRenderer;
 
@@ -180,7 +185,7 @@ public class MainHelper implements ActionListener, Observer {
      */
     private void initTable() {
         JTable table = (JTable)this.components.get(MainHelper.RESULT_GRID);
-        DefaultTableModel tableModel = new DefaultTableModel();
+        DefaultTableModel tableModel = new layout.helper.component.CustomTableModel();//new DefaultTableModel();
         tableModel.addColumn("Filename");
         tableModel.addColumn("Filesize");
         tableModel.addColumn("Modified");
@@ -189,6 +194,27 @@ public class MainHelper implements ActionListener, Observer {
 
         List<TableColumn> listedColumns = Collections.list(table.getColumnModel().getColumns());
         table.getColumn(listedColumns.get(0).getIdentifier()).setPreferredWidth(200);
+
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = table.rowAtPoint(evt.getPoint());
+                int col = table.columnAtPoint(evt.getPoint());
+                if (row >= 0 && col == 3) {
+                    javax.swing.table.TableModel model = table.getModel();
+                    if (JOptionPane.showConfirmDialog(table, "Are you sure you want to delete <" + model.getValueAt(row, 0) + ">?", "Delete confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.OK_OPTION) {
+                        try {
+                            java.io.File file = new java.io.File((String)model.getValueAt(row, 0));
+                            file.delete();
+                            ((DefaultTableModel)table.getModel()).removeRow(row);
+                            JOptionPane.showMessageDialog(frame, "File was succesfully deleted!", "Delete response", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(frame, "Could not delete file!\n" + e.getMessage(), "Delete Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -348,6 +374,7 @@ public class MainHelper implements ActionListener, Observer {
         table.getColumn("Modified").setCellRenderer(renderer);
 
         table.getColumn("Action").setCellRenderer(new ButtonRenderer());
-        table.getColumn("Action").setPreferredWidth(100);
+        table.getColumn("Action").setPreferredWidth(60);
+        
     }
 }
